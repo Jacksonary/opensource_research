@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!--  <parent>-->
+<!--    <artifactId>zhaogang_test</artifactId>-->
+<!--    <groupId>org.example</groupId>-->
+<!--    <version>1.0-SNAPSHOT</version>-->
+<!--  </parent>-->
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.zhaogang</groupId>
+  <artifactId>custom_starter</artifactId>
+  <version>0.0.1 RELEASE</version>
+
+  <properties>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+    <spring-boot.version>2.4.4</spring-boot.version>
+  </properties>
+
+  <!--  作用是编译时生成 spring-configuration-metadata.json ，此文件主要给IDE使用，
+  ctlr+鼠标左键点击配置文件（如application.properties）上相关配置属性，即可跳转到配置此属性的类中-->
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+    </dependency>
+  </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <!-- Import dependency management from Spring Boot -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+</project>

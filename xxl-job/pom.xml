@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>opensource_research</artifactId>
+    <groupId>org.example</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>xxl-job</artifactId>
+
+  <dependencies>
+    <!--    此版本启动出现空指针异常：ERROR c.x.job.core.executor.XxlJobExecutor - null，
+    可以参见 https://github.com/xuxueli/xxl-job/issues/1799 -->
+    <dependency>
+      <groupId>com.xuxueli</groupId>
+      <artifactId>xxl-job-core</artifactId>
+      <version>2.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <version>2.3.4.RELEASE</version>
+    </dependency>
+  </dependencies>
+</project>

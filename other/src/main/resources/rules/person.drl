@@ -1,0 +1,21 @@
+// 包名是对于规则文件逻辑上管理，建议和drl文件的位置声明为同一个目录，如 person.drl 在 rules 目录，则声明为对应的目录，否则会出现 It is advised to have a correspondance between package and folder names
+package rules
+import com.zhaogang.other.drools.dto.Person
+
+dialect  "mvel"
+
+// 规则名
+rule "age-rule"
+    // 指明条件
+    when
+        // 条件部分称之为 Left Hand Side，即所谓的 LHS，条件又称之为pattern（匹配模式），它指的是 when 和 then 之间的部分
+        // 在LHS 当中，可以包含0~n 个条件，如果 LHS 部分为空的话，引擎会自动添加一个eval(true)的条件，由于该条件总是返回true，所以LHS 为空的规则总是返回true
+        //
+        $person : Person(age < 18 || age > 56)
+        Person(name contains 'a')
+    // 指明结果
+    then
+        $person.setAge(18);
+        $person.setName("stu fat");
+        System.out.println(">> person rules: age less than 18 or older than 56");
+end

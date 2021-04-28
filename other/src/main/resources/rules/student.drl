@@ -1,0 +1,26 @@
+// 包名是对于规则文件逻辑上管理
+package rules
+import com.zhaogang.other.drools.dto.Student
+
+// 指定方言，MVEL是Apache许可的功能强大的表达语言(EL),用Java编写,用于基于Java的应用程序,因此其语法与Java相似.
+dialect  "mvel"
+
+// 规则名
+rule "id-rule"
+    // 指明条件
+    when
+        // 条件部分称之为 Left Hand Side，即所谓的 LHS，条件又称之为pattern（匹配模式），它指的是 when 和 then 之间的部分
+        // 在LHS 当中，可以包含0~n 个条件，如果 LHS 部分为空的话，引擎会自动添加一个eval(true)的条件，由于该条件总是返回true，所以LHS 为空的规则总是返回true
+        //
+        $person : Student(id < 8)
+    // 指明结果
+    then
+        System.out.println(">> student rules: age less than 8, can not go to school");
+end
+
+rule "no-rule"
+  when
+    $stu: Student(no contains 'spec')
+  then
+    System.out.println(">> student rules: this is special stu fact");
+end

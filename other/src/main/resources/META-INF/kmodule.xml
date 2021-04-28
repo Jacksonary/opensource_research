@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+  <!-- kmodule 文件是一个配置文件告诉代码规则文件drl在哪里，它被放置到resources/META-INF目录下
+  packages 参数是声明 drl 规则文件的位置（即需要扫描的resource目录），可以多个使用英文逗号分隔
+  -->
+  <kbase name="rules" packages="rules">
+    <ksession name="person"/>
+    <ksession name="student"/>
+  </kbase>
+</kmodule>

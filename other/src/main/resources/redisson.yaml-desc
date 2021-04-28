@@ -1,0 +1,50 @@
+redisson:
+  file: classpath:redisson.yaml
+  config: |
+#    单机模式
+    singleServerConfig:
+      password:
+      address: "redis://127.0.0.1:6379"
+      database: 1
+
+      dnsMonitoringInterval: 5000
+
+# 指定watchdog间隔（ms，默认30000），不要太小 ，否则由于网络直接导致加锁完后，watchdog 去延期时，这个key在redis中已经被删除了
+# 监控锁的看门狗超时时间单位为毫秒。该参数只适用于分布式锁的加锁请求中未明确使用leaseTimeout参数的情况。如果该看门狗未使用lockWatchdogTimeout去重新调整一个分布式锁的lockWatchdogTimeout超时，那么这个锁将变为失效状态。
+#    这个参数可以用来避免由Redisson客户端节点宕机或其他原因造成死锁的情况。
+    lockWatchdogTimeout: 500
+
+#     集群模式
+    clusterServersConfig:
+      idleConnectionTimeout: 10000
+      connectTimeout: 10000
+      timeout: 3000
+      retryAttempts: 3
+      retryInterval: 1500
+      failedSlaveReconnectionInterval: 3000
+      failedSlaveCheckInterval: 60000
+      password: null
+      subscriptionsPerConnection: 5
+      clientName: null
+      loadBalancer: !<org.redisson.connection.balancer.RoundRobinLoadBalancer> { }
+      subscriptionConnectionMinimumIdleSize: 1
+      subscriptionConnectionPoolSize: 50
+      slaveConnectionMinimumIdleSize: 24
+      slaveConnectionPoolSize: 64
+      masterConnectionMinimumIdleSize: 24
+      masterConnectionPoolSize: 64
+      readMode: "SLAVE"
+      subscriptionMode: "SLAVE"
+      nodeAddresses:
+        - "redis://127.0.0.1:7004"
+        - "redis://127.0.0.1:7001"
+        - "redis://127.0.0.1:7000"
+      scanInterval: 1000
+      pingConnectionInterval: 0
+      keepAlive: false
+      tcpNoDelay: false
+    threads: 16
+    nettyThreads: 32
+    codec: !<org.redisson.codec.Mar
+    shallingCodec> {}
+    transportMode: "NIO"
