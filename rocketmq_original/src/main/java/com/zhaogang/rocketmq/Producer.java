@@ -73,6 +73,7 @@ public class Producer {
                 });
         TRANSACTION_PRODUCER.setExecutorService(executorService);
 
+        // 设置本地事务管理器
         TransactionListener transactionListener = new TransactionListenerImpl();
         TRANSACTION_PRODUCER.setTransactionListener(transactionListener);
     }
@@ -82,9 +83,9 @@ public class Producer {
         PRODUCER.start();
 
 //        syncProduce();
-        asyncProduce();
+//        asyncProduce();
 //        onewayProduce();
-//        orderedProduce();
+        orderedProduce();
 //        batchProduce();
 
         // 启动事务Producer实例
@@ -94,7 +95,11 @@ public class Producer {
 
 
     /**
-     * 1. 第一种消息发送方式：同步发送，可靠，使用的比较广泛，比如：重要的消息通知，短信通知 1.2 延迟消息也是普通消息，只是多了一个延迟，消费逻辑不变（电商里，提交了一个订单就可以发送一个延时消息，1h后去检查这个订单的状态，如果还是未付款就取消订单释放库存）
+     * @formatter:off 
+     * 1. 第一种消息发送方式：同步发送，可靠，使用的比较广泛，比如：重要的消息通知，短信通知 
+     * 1.2 延迟消息也是普通消息，只是多了一个延迟，消费逻辑不变
+     * （电商里，提交了一个订单就可以发送一个延时消息，1h后去检查这个订单的状态，如果还是未付款就取消订单释放库存）
+     * @formatter:on 
      */
     private static void syncProduce() throws Exception {
         for (int i = 0; i < 100; i++) {
@@ -180,11 +185,17 @@ public class Producer {
     }
 
     /**
-     * 4. 第四种消息发送方式：顺序消息（分区、队列有序）,
-     * <p>
-     * 在默认的情况下,消息发送会采取Round Robin轮询方式把消息发送到不同的queue(分区队列)； 而消费消息的时候从多个queue上拉取消息，这种情况发送和消费是不能保证顺序。
-     * <p>
-     * 有序消息的实现， 控制发送的顺序消息只依次发送到同一个queue中， 消费的时候只从这个queue上依次拉取，则就保证了顺序。 当发送和消费参与的queue只有一个，则是全局有序； 如果多个queue参与，则为分区有序，即相对每个queue，消息都是有序的。
+     * @formatter:off 
+     * 4. 第四种消息发送方式：顺序消息（分区、队列有序）
+     * 在默认的情况下,消息发送会采取Round Robin轮询方式把消息发送到不同的queue(分区队列)； 
+     * 而消费消息的时候从多个queue上拉取消息，这种情况发送和消费是不能保证顺序。
+     * 
+     * 有序消息的实现， 
+     * 控制发送的顺序消息只依次发送到同一个queue中， 
+     * 消费的时候只从这个queue上依次拉取，则就保证了顺序。 
+     * 当发送和消费参与的queue只有一个，则是全局有序（但由于是全局公用一个队列，并发性能会变差）；
+     * 如果多个queue参与，则为分区有序，即相对每个queue，消息都是有序的。
+     * @formatter:on 
      */
     private static void orderedProduce() throws Exception {
         for (int i = 0; i < 100; i++) {
@@ -213,9 +224,14 @@ public class Producer {
     }
 
     /**
+     * @formatter:off 
      * 5. 批量消息，合理的批量发送会提升mq的性能
-     * <p>
-     * 批量发送的限制： 1. 批量消息应该有相同的topic、waitStoreMsgOK 2. 批量消息不能是延时消息 3. 一批消息的总大小不应超过4MB
+     * 
+     * 批量发送的限制： 
+     * 1. 批量消息应该有相同的topic、waitStoreMsgOK 
+     * 2. 批量消息不能是延时消息 
+     * 3. 一批消息的总大小不应超过4MB
+     * @formatter:on 
      */
     private static void batchProduce() {
         String topic = "BATCH_TOPIC";
@@ -241,6 +257,7 @@ public class Producer {
     }
 
     /**
+     * @formatter:off
      * 6. 事务消息 事务消息有三种状态：提交、回滚、中间
      * TransactionStatus.CommitTransaction: 提交事务，它允许消费者消费此消息。
      * TransactionStatus.RollbackTransaction: 回滚事务，它代表该消息将被删除，不允许被消费。
@@ -248,11 +265,17 @@ public class Producer {
      *
      * 事务消息的限制：
      * 1. 事务消息不支持延时消息和批量消息。
-     * 2. 为了避免单个消息被检查太多次而导致半队列消息累积，默认将单个消息的检查次数限制为 15 次，但是用户可以通过 Broker 配置文件的 transactionCheckMax参数来修改此限制。如果已经检查某条消息超过 N 次的话（ N = transactionCheckMax ） 则 Broker 将丢弃此消息，并在默认情况下同时打印错误日志。用户可以通过重写 AbstractTransactionalMessageCheckListener 类来修改这个行为。
-     * 3. 事务消息将在 Broker 配置文件中的参数 transactionTimeout 这样的特定时间长度之后被检查。当发送事务消息时，用户还可以通过设置用户属性 CHECK_IMMUNITY_TIME_IN_SECONDS 来改变这个限制，该参数优先于 transactionTimeout 参数。
+     * 2. 为了避免单个消息被检查太多次而导致半队列消息累积，默认将单个消息的检查次数限制为 15 次，但是用户可以通过 Broker 配置文件
+     * 的 transactionCheckMax参数来修改此限制。如果已经检查某条消息超过 N 次的话（ N = transactionCheckMax ） 则 Broker 将
+     * 丢弃此消息，并在默认情况下同时打印错误日志。用户可以通过重写 AbstractTransactionalMessageCheckListener 类来修改这个行为。
+     * 3. 事务消息将在 Broker 配置文件中的参数 transactionTimeout 这样的特定时间长度之后被检查。当发送事务消息时，用户还可以通过
+     * 设置用户属性 CHECK_IMMUNITY_TIME_IN_SECONDS 来改变这个限制，该参数优先于 transactionTimeout 参数。
      * 4. 事务性消息可能不止一次被检查或消费。
-     * 5. 提交给用户的目标主题消息可能会失败，目前这依日志的记录而定。它的高可用性通过 RocketMQ 本身的高可用性机制来保证，如果希望确保事务消息不丢失、并且事务完整性得到保证，建议使用同步的双重写入机制。
-     * 6. 事务消息的生产者 ID 不能与其他类型消息的生产者 ID 共享。与其他类型的消息不同，事务消息允许反向查询、MQ服务器能通过它们的生产者 ID 查询到消费者。
+     * 5. 提交给用户的目标主题消息可能会失败，目前这依日志的记录而定。它的高可用性通过 RocketMQ 本身的高可用性机制来保证，如果希望确
+     * 保事务消息不丢失、并且事务完整性得到保证，建议使用同步的双重写入机制。
+     * 6. 事务消息的生产者 ID 不能与其他类型消息的生产者 ID 共享。与其他类型的消息不同，事务消息允许反向查询、MQ服务器能通过它们的生
+     * 产者 ID 查询到消费者。
+     * @formatter:on
      */
     private static void transactionProduce() throws Exception {
         String[] tags = new String[]{"TagA", "TagB", "TagC", "TagD", "TagE"};
@@ -261,6 +284,10 @@ public class Producer {
                 Message msg =
                         new Message("TRANSACTION_TOPIC", tags[i % tags.length], "KEY" + i,
                                 ("transaction message " + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
+                // 这里可以额外放一些属性，需要时可以使用
+                msg.putUserProperty("k" + i, "v" + i);
+                msg.putUserProperty("kk" + i, "vv" + i);
+
                 SendResult sendResult = TRANSACTION_PRODUCER.sendMessageInTransaction(msg, null);
                 System.out.printf("%s%n", sendResult);
                 Thread.sleep(10);

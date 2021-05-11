@@ -25,13 +25,16 @@ import org.apache.rocketmq.remoting.common.RemotingHelper;
 /**
  * @author weiguo.liu
  * @date 2020/10/22
- * @description 1. 关于消费的幂等 RocketMQ无法避免消息重复（Exactly-Once），所以如果业务对消费重复非常敏感，务必要在业务层面进行去重处理。
- * 可以借助关系数据库进行去重。首先需要确定消息的唯一键，可以是msgId，
- * 也可以是消息内容中的唯一标识字段，例如订单Id等。
+ * @description 
+ * @formatter:off 
+ * 1. 关于消费的幂等 RocketMQ无法避免消息重复（Exactly-Once），所以如果业务对消费重复非常敏感，务必要在业务层面进行去重处理。
+ * 可以借助关系数据库进行去重。首先需要确定消息的唯一键，可以是msgId，也可以是消息内容中的唯一标识字段，例如订单Id等。
+ * 
  * 在消费之前判断唯一键是否在关系数据库中存在。如果不存在则插入，并消费，否则跳过。
  * （实际过程要考虑原子性问题，判断是否存在可以尝试插入，如果报主键冲突，则插入失败，直接跳过）
  * msgId一定是全局唯一标识符，但是实际使用中，可能会存在相同的消息有两个不同msgId的情况（消费者主动重发、因客户端重投机制导致的重复等），
  * 这种情况就需要使业务字段进行重复消费。
+ * @formatter:on 
  */
 public class Consumer {
 
@@ -94,8 +97,8 @@ public class Consumer {
     private static AtomicInteger count = new AtomicInteger(0);
 
     public static void main(String[] args) throws Exception {
-        consume();
-//        orderedConsume();
+//        consume();
+        orderedConsume();
         // 启动消费者实例
         PUSH_CONSUMER.start();
         System.out.print("Consumer Started.");
@@ -140,10 +143,15 @@ public class Consumer {
     }
 
     /**
-     * 2. 分区顺序消息消费，带事务方式（应用可控制Offset什么时候提交） 需要配合顺序消息发送方式才有意义 这里的有序是分区有序，即一个queue里面的顺序是有序的。 顺序消费消息 消费的时候只从这个queue上依次拉取，则就保证了顺序。
-     * <p>
-     * 分区有序的典型Demo就是订单：一个订单的流程大概是：创建->付款->推送->完成，这个流程中的4个步骤会统一带上订单id（OrderId） 对于消息队列模型而言，这4个步骤定义为一组有序消息，对于同一个订单发出的4个消息，期望4个消息被有序消费
+     * @formatter:off
+     * 2. 分区顺序消息消费，带事务方式（应用可控制Offset什么时候提交）
+     * 需要配合顺序消息发送方式才有意义 这里的有序是分区有序，即一个queue里面的顺序是有序的。
+     * 顺序消费消息 消费的时候只从这个queue上依次拉取，则就保证了顺序。
+     *
+     * 分区有序的典型Demo就是订单：一个订单的流程大概是：创建->付款->推送->完成，这个流程中的4个步骤会统一带上订单id（OrderId）
+     * 对于消息队列模型而言，这4个步骤定义为一组有序消息，对于同一个订单发出的4个消息，期望4个消息被有序消费
      * 所以我们要做的就是将一组消息向同一个队列中发，消费时从这个队列中依次拉取
+     * @formatter:on
      */
     private static void orderedConsume() throws MQClientException {
         /**
@@ -163,8 +171,8 @@ public class Consumer {
                 for (MessageExt msg : msgs) {
                     String bodyMsg = new String(msg.getBody());
                     // 可以看到每个queue有唯一的consume线程来消费, 订单对每个queue(分区)有序
-                    System.out.println(
-                            "consumeThread=" + Thread.currentThread().getName() + "queueId=" + msg.getQueueId() + ", content:" + bodyMsg);
+                    System.out.println("consumeThread=" + Thread.currentThread().getName() + ", queueId="
+                        + msg.getQueueId() + ", content:" + bodyMsg);
 
                     // 这里直接按队列分区，debug到此可以查看map里面的数据是否有序
                     List<String> content = orderedMsgContainer.get(msg.getQueueId());
