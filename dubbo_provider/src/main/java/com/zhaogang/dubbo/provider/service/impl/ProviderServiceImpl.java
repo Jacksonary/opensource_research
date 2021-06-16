@@ -15,6 +15,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     public String test() {
+        int i = 8/0;
         return "I'm dubbo remote service";
     }
 }
