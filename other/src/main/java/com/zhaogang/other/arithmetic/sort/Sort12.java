@@ -1,59 +1,38 @@
-package com.zhaogang.other.arithmetic;
+package com.zhaogang.other.arithmetic.sort;
+
+import com.zhaogang.other.arithmetic.util.ArrUtils;
 
 /**
- * @author weiguo.liu
- * @date 2021/4/21
+ * @author jacks
+ * @date 2021/6/17
  * @description
  */
-public class Sort2 {
-    private static int[] arr = new int[] {3, 2, 5, 1, 8, 8, 6, 0, 0};
-
-    private static void swap(int from, int to) {
-        int tmp = arr[from];
-        arr[from] = arr[to];
-        arr[to] = tmp;
-    }
-
-    private static void printResult() {
-        System.out.println(">> " + Thread.currentThread().getStackTrace()[2].getMethodName() + " result: ");
-        for (int i : arr) {
-            System.out.print(i + " ");
-        }
-    }
+public class Sort12 {
+    private static final int[] arr = new int[] {7, 8, 1, 2, 3, 0, 9, 4, 6, 5, 8, 2, 3, 4, 5, 1, 7};
 
     public static void main(String[] args) {
-        // bubble();
-        // select();
-        // insert();
-        // shell();
-
-        merge(arr, 0, arr.length - 1);
-        printResult();
-
-        // fast(arr, 0, arr.length - 1);
-        // printResult();
+        //        bubble();
+        //        select();
+        //        insert();
+        //        shell();
+        //        merge(arr, 0, arr.length - 1);
+        fast(arr, 0, arr.length - 1);
+        ArrUtils.printResult(arr);
     }
 
-    /**
-     * S - O(1) T - O(N^2) S
-     */
     private static void bubble() {
         for (int i = arr.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
-                // 这里不包含 =，这种排序方式是稳定的
                 if (arr[j] > arr[j + 1]) {
-                    swap(j, j + 1);
+                    ArrUtils.swap(arr, j, j + 1);
                 }
             }
         }
-        printResult();
+        ArrUtils.printResult(arr);
     }
 
-    /**
-     * S O(1) T O(n^2) Y
-     */
     private static void select() {
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length - 1; i++) {
             int minIndex = i;
             for (int j = i + 1; j < arr.length; j++) {
                 if (arr[j] < arr[minIndex]) {
@@ -62,48 +41,45 @@ public class Sort2 {
             }
 
             if (minIndex != i) {
-                swap(i, minIndex);
+                ArrUtils.swap(arr, minIndex, i);
             }
         }
-
-        printResult();
+        ArrUtils.printResult(arr);
     }
 
-    /**
-     * T - O(logn) S - O(1) NS
-     */
     private static void insert() {
         for (int i = 1; i < arr.length; i++) {
             int tar = arr[i];
             int tarIndex = i;
             while (tarIndex > 0 && arr[tarIndex - 1] >= tar) {
-                arr[tarIndex] = arr[--tarIndex];
+                arr[tarIndex--] = arr[tarIndex];
             }
             arr[tarIndex] = tar;
         }
 
-        printResult();
+        ArrUtils.printResult(arr);
     }
 
     private static void shell() {
         int h = 1;
-        while (h < arr.length / 3) {
+        int stepMax = arr.length / 3;
+        while (h < stepMax) {
             h = h * 3 + 1;
         }
 
         while (h > 0) {
-            for (int i = h + 1; i < arr.length; i++) {
-                int tarIndex = i;
+            for (int i = h; i < arr.length; i++) {
                 int tar = arr[i];
+                int tarIndex = i;
                 while (tarIndex > h - 1 && arr[tarIndex - 1] >= tar) {
-                    arr[tarIndex] = arr[--tarIndex];
+                    arr[tarIndex--] = arr[tarIndex];
                 }
                 arr[tarIndex] = tar;
             }
             h = (h - 1) / 3;
         }
 
-        printResult();
+        ArrUtils.printResult(arr);
     }
 
     private static void merge(int[] arr, int low, int high) {
@@ -112,14 +88,14 @@ public class Sort2 {
         if (low < high) {
             merge(arr, low, mid);
             merge(arr, mid + 1, high);
-            mergeProcess(arr, low, mid, high);
+            mergeP(arr, low, mid, high);
         }
     }
 
-    private static void mergeProcess(int[] arr, int low, int mid, int high) {
+    private static void mergeP(int[] arr, int low, int mid, int high) {
         int left = low;
         int right = mid + 1;
-        int[] tmp = new int[high - low + 1];
+        int tmp[] = new int[high - low + 1];
         int tmpIndex = 0;
 
         while (left <= mid && right <= high) {
@@ -134,14 +110,14 @@ public class Sort2 {
             tmp[tmpIndex++] = arr[right++];
         }
 
-        System.arraycopy(tmp, 0, arr, low, tmp.length);
+        System.arraycopy(tmp, 0, arr, low, high - low + 1);
     }
 
     private static void fast(int[] arr, int low, int high) {
         int left = low;
         int right = high;
         int pivot = arr[low];
-        int tarIndex = low;
+        int emptyIndex = low;
 
         while (left < right) {
             while (left < right && arr[right] >= pivot) {
@@ -149,8 +125,8 @@ public class Sort2 {
             }
 
             if (left < right) {
-                arr[tarIndex] = arr[right];
-                tarIndex = right;
+                arr[emptyIndex] = arr[right];
+                emptyIndex = right;
             }
 
             while (left < right && arr[left] <= pivot) {
@@ -158,12 +134,12 @@ public class Sort2 {
             }
 
             if (left < right) {
-                arr[tarIndex] = arr[left];
-                tarIndex = left;
+                arr[emptyIndex] = arr[left];
+                emptyIndex = left;
             }
         }
 
-        arr[tarIndex] = pivot;
+        arr[emptyIndex] = pivot;
 
         if (left - low > 1) {
             fast(arr, low, left - 1);

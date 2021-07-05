@@ -1,4 +1,6 @@
-package com.zhaogang.other.arithmetic;
+package com.zhaogang.other.arithmetic.sort;
+
+import com.zhaogang.other.arithmetic.util.ArrUtils;
 
 /**
  * @author jacks

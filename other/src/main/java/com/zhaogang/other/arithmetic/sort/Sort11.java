@@ -1,27 +1,25 @@
-package com.zhaogang.other.arithmetic;
+package com.zhaogang.other.arithmetic.sort;
+
+import com.zhaogang.other.arithmetic.util.ArrUtils;
 
 /**
- * @author weiguo.liu
- * @date 2021/4/23
+ * @author jacks
+ * @date 2021/5/31
  * @description
  */
-public class Sort4 {
-    private static int[] arr = new int[] {7, 8, 1, 6, 3, 9, 0, 2, 2, 5, 3, 7};
+public class Sort11 {
+    private static final int[] arr = new int[] {5, 6, 7, 2, 3, 1, 1, 4, 9, 0, 0};
 
     public static void main(String[] args) {
-        // bubble();
-        // select();
-        // insert();
-        // shell();
-
-//        merge(0, arr.length - 1, arr);
-        fast(0, arr.length - 1, arr);
+        //        bubble();
+        //        select();
+        //        insert();
+        //        shell();
+        //        merge(arr, 0, arr.length - 1);
+        fast(arr, 0, arr.length - 1);
         ArrUtils.printResult(arr);
     }
 
-    /**
-     * T-O(n^2) S-O(1) NS
-     */
     private static void bubble() {
         for (int i = arr.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
@@ -30,18 +28,18 @@ public class Sort4 {
                 }
             }
         }
-
         ArrUtils.printResult(arr);
     }
 
     private static void select() {
-        for (int i = 0; i < arr.length - 1; i++) {
+        for (int i = 0; i < arr.length; i++) {
             int minIndex = i;
             for (int j = i + 1; j < arr.length; j++) {
-                if (arr[j] < arr[minIndex]) {
+                if (arr[minIndex] > arr[j]) {
                     minIndex = j;
                 }
             }
+
             if (minIndex != i) {
                 ArrUtils.swap(arr, minIndex, i);
             }
@@ -52,13 +50,11 @@ public class Sort4 {
 
     private static void insert() {
         for (int i = 1; i < arr.length; i++) {
-            int tarIndex = i;
             int tar = arr[i];
-            // 考虑是否要 =
+            int tarIndex = i;
             while (tarIndex > 0 && arr[tarIndex - 1] > tar) {
-                arr[tarIndex] = arr[--tarIndex];
+                arr[tarIndex--] = arr[tarIndex];
             }
-
             arr[tarIndex] = tar;
         }
 
@@ -72,11 +68,11 @@ public class Sort4 {
         }
 
         while (h > 0) {
-            for (int i = h - 1; i < arr.length; i++) {
-                int tarIndex = i;
+            for (int i = h; i < arr.length; i++) {
                 int tar = arr[i];
-                while (tarIndex > 0 && arr[tarIndex - 1] > tar) {
-                    arr[tarIndex] = arr[--tarIndex];
+                int tarIndex = i;
+                while (tarIndex > h - 1 && arr[tarIndex - 1] > tar) {
+                    arr[tarIndex--] = arr[tarIndex];
                 }
                 arr[tarIndex] = tar;
             }
@@ -86,20 +82,20 @@ public class Sort4 {
         ArrUtils.printResult(arr);
     }
 
-    private static void merge(int low, int high, int[] arr) {
+    private static void merge(int[] arr, int low, int high) {
         int mid = (low + high) / 2;
 
         if (low < high) {
-            merge(low, mid, arr);
-            merge(mid + 1, high, arr);
-            mergePro(low, mid, high, arr);
+            merge(arr, low, mid);
+            merge(arr, mid + 1, high);
+            mergeP(arr, low, mid, high);
         }
     }
 
-    private static void mergePro(int low, int mid, int high, int[] arr) {
+    private static void mergeP(int[] arr, int low, int mid, int high) {
         int left = low;
         int right = mid + 1;
-        int[] tmp = new int[high - low + 1];
+        int tmp[] = new int[high - low + 1];
         int tmpIndex = 0;
 
         while (left <= mid && right <= high) {
@@ -117,11 +113,11 @@ public class Sort4 {
         System.arraycopy(tmp, 0, arr, low, tmp.length);
     }
 
-    private static void fast(int low, int high, int[] arr) {
-        int emptyIndex = low;
-        int pivot = arr[low];
+    private static void fast(int[] arr, int low, int high) {
         int left = low;
         int right = high;
+        int emptyIndex = low;
+        int pivot = arr[low];
 
         while (left < right) {
             while (left < right && arr[right] >= pivot) {
@@ -145,12 +141,12 @@ public class Sort4 {
 
         arr[emptyIndex] = pivot;
 
-        if (left - low > 1) {
-            fast(low, left - 1, arr);
+        if (left > low ) {
+            fast(arr, low, left - 1);
         }
 
-        if (high - right > 1) {
-            fast(right + 1, high, arr);
+        if (high > right) {
+            fast(arr, right + 1, high);
         }
     }
 }

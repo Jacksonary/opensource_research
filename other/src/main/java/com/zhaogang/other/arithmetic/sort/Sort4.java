@@ -1,12 +1,14 @@
-package com.zhaogang.other.arithmetic;
+package com.zhaogang.other.arithmetic.sort;
+
+import com.zhaogang.other.arithmetic.util.ArrUtils;
 
 /**
  * @author weiguo.liu
- * @date 2021/4/22
+ * @date 2021/4/23
  * @description
  */
-public class Sort3 {
-    private static int[] arr = new int[] {3, 4, 5, 9, 0, 7, 6, 7, 1, 1, 2, 8};
+public class Sort4 {
+    private static int[] arr = new int[] {7, 8, 1, 6, 3, 9, 0, 2, 2, 5, 3, 7};
 
     public static void main(String[] args) {
         // bubble();
@@ -14,17 +16,13 @@ public class Sort3 {
         // insert();
         // shell();
 
-        // merge(0, arr.length - 1, arr);
+//        merge(0, arr.length - 1, arr);
         fast(0, arr.length - 1, arr);
         ArrUtils.printResult(arr);
     }
 
     /**
-     * @formatter:off 
-     * S - O(1) 
-     * T- O(n^2)
-     * S
-     * @formatter:on 
+     * T-O(n^2) S-O(1) NS
      */
     private static void bubble() {
         for (int i = arr.length - 1; i > 0; i--) {
@@ -38,22 +36,14 @@ public class Sort3 {
         ArrUtils.printResult(arr);
     }
 
-    /**
-     * @formatter:off
-     * T-O(n^2)
-     * S-O(1)
-     * NS
-     * @formatter:on 
-     */
     private static void select() {
         for (int i = 0; i < arr.length - 1; i++) {
             int minIndex = i;
             for (int j = i + 1; j < arr.length; j++) {
-                if (arr[minIndex] > arr[j]) {
+                if (arr[j] < arr[minIndex]) {
                     minIndex = j;
                 }
             }
-
             if (minIndex != i) {
                 ArrUtils.swap(arr, minIndex, i);
             }
@@ -62,18 +52,12 @@ public class Sort3 {
         ArrUtils.printResult(arr);
     }
 
-    /**
-     * @formatter:off 
-     * T- O(n^2)
-     * S-O(1)
-     * S
-     * @formatter:on 
-     */
     private static void insert() {
         for (int i = 1; i < arr.length; i++) {
             int tarIndex = i;
             int tar = arr[i];
-            while (tarIndex > 0 && arr[tarIndex - 1] >= tar) {
+            // 考虑是否要 =
+            while (tarIndex > 0 && arr[tarIndex - 1] > tar) {
                 arr[tarIndex] = arr[--tarIndex];
             }
 
@@ -83,13 +67,6 @@ public class Sort3 {
         ArrUtils.printResult(arr);
     }
 
-    /**
-     * @formatter:off 
-     * T-O(log n)
-     * S - O(1)
-     * ns
-     * @formatter:on 
-     */
     private static void shell() {
         int h = 1;
         while (h < arr.length / 3) {
@@ -97,10 +74,10 @@ public class Sort3 {
         }
 
         while (h > 0) {
-            for (int i = h; i < arr.length; i++) {
+            for (int i = h - 1; i < arr.length; i++) {
                 int tarIndex = i;
                 int tar = arr[i];
-                while (tarIndex > 0 && arr[tarIndex - 1] >= tar) {
+                while (tarIndex > 0 && arr[tarIndex - 1] > tar) {
                     arr[tarIndex] = arr[--tarIndex];
                 }
                 arr[tarIndex] = tar;
@@ -111,17 +88,6 @@ public class Sort3 {
         ArrUtils.printResult(arr);
     }
 
-    /**
-     * @formatter:off
-     * T-O(log n)
-     * S-O(n)
-     *
-     * NS
-     * @formatter:on
-     * @param low
-     * @param high
-     * @param arr
-     */
     private static void merge(int low, int high, int[] arr) {
         int mid = (low + high) / 2;
 
@@ -153,21 +119,11 @@ public class Sort3 {
         System.arraycopy(tmp, 0, arr, low, tmp.length);
     }
 
-    /**
-     * @formatter:off 
-     * T-O(nlon)
-     * S-O(1)
-     * ns
-     * @formatter:on 
-     * @param low
-     * @param high
-     * @param arr
-     */
     private static void fast(int low, int high, int[] arr) {
-        int left = low;
-        int right = high;
         int emptyIndex = low;
         int pivot = arr[low];
+        int left = low;
+        int right = high;
 
         while (left < right) {
             while (left < right && arr[right] >= pivot) {
