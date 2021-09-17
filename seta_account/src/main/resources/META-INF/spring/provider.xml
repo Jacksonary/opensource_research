@@ -1,0 +1,44 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+  xmlns="http://www.springframework.org/schema/beans"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+  <!-- 用于配置当前应用信息，不管该应用是提供者还是消费者，提供方应用信息，用于计算依赖关系 -->
+  <dubbo:application name="seta-account-app" owner="weiguo.liu" organization="hhu"/>
+
+  <!-- 使用multicast广播注册中心暴露服务地址 -->
+  <!--  <dubbo:registry address="multicast://224.5.6.7:1234"/>-->
+  <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+
+  <!-- 用于配置提供服务的协议信息，协议由提供方指定，消费方被动接受，用dubbo协议在20880端口暴露服务，同一机器中暴露服务应该避免使用同一个端口 -->
+  <dubbo:protocol name="dubbo" port="20882"/>
+
+  <!-- 声明需要暴露的服务接口，用于暴露一个服务，定义服务的元信息，一个服务可以用多个协议暴露，一个服务也可以注册到多个注册中心 -->
+  <!--  <dubbo:service interface="com.zhaogang.dubbo.service.ProviderService" ref="providerService"/>-->
+
+  <!--也可以进一步定义方法级别的一些配置（可选），注意：像一些通用的参数 timeout、retries等参数是可以在提供者的接口、提供者的方法、
+  消费者的依赖的接口、消费者依赖的接口中的方法中，如果对应的地方都进行了定义，那优先级从高到低遵循：消费者>提供者，方法>接口 -->
+
+  <!-- 实际生产建议提供配置超时时间，且由提供者配置，因为逻辑在提供者，它更知道处理逻辑应该多长时间应该搞定-->
+  <!--  建议在 Provider 端配置的 Provider 端属性有：-->
+  <!--  threads：服务线程池大小-->
+  <!--  executes：一个服务提供者并行执行请求上限，即当 Provider 对一个服务的并发调用达到上限后，新调用会阻塞，此时 Consumer 可能会超时。在方法上配置 dubbo:method 则针对该方法进行并发限制，在接口上配置 dubbo:service，则针对该服务进行并发限制-->
+
+  <!--  建议在 Provider 端配置的 Consumer 端属性有：-->
+  <!--  timeout：方法调用的超时时间-->
+  <!--  retries：失败重试次数，缺省是 2 [2]-->
+  <!--  loadbalance：负载均衡算法 [3]，缺省是随机 random。还可以配置轮询 roundrobin、最不活跃优先 [4] leastactive 和一致性哈希 consistenthash 等-->
+  <!--  actives：消费者端的最大并发调用限制，即当 Consumer 对一个服务的并发调用到上限后，新调用会阻塞直到超时，在方法上配置 dubbo:method 则针对该方法进行并发限制，在接口上配置 dubbo:service，则针对该服务进行并发限制-->
+  <!--  export：用于控制是否导出提供者给别人用，默认为true，如果只是本地调式不希望暴露，可以将其设为false-->
+
+  <!--  每个接口都应定义版本号，为后续不兼容升级提供可能,建议使用两位版本号，因为第三位版本号通常表示兼容升级，只有不兼容时才需要变更服务版本-->
+  <!--  当不兼容时，先升级一半提供者为新版本，再将消费者全部升为新版本，然后将剩下的一半提供者升为新版本-->
+  <dubbo:service interface="com.zhaogang.dubbo.service.AccountService" ref="accountService" version="1.0"
+    timeout="300" retries="2"
+    loadbalance="random" actives="0" export="true">
+  </dubbo:service>
+
+  <!-- 和本地bean一样实现服务，如果交给IOC来管理这里就用再手动注入了 -->
+  <!--  <bean id="providerService" class="com.ProviderServiceImpl"/>-->
+</beans>

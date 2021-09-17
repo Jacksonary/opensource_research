@@ -1,7 +1,7 @@
 package com.zhaogang.other.arithmetic.stack;
 
 import com.zhaogang.other.arithmetic.util.ArrUtils;
-import com.zhaogang.other.arithmetic.util.ScannerUtil;
+import com.zhaogang.other.arithmetic.util.ScannerUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,8 +33,8 @@ import java.util.List;
 public class SlideWin {
     public static void main(String[] args) {
         // 初始化数据
-        Integer[] arr = ScannerUtil.getArr(Integer.class);
-        Integer winSize = ScannerUtil.getSignValue(Integer.class);
+        Integer[] arr = ScannerUtils.getArr(Integer.class);
+        Integer winSize = ScannerUtils.getSignValue(Integer.class);
 
         //        Integer[] winArr = getWinArr(arr, winSize);
         //        Integer[] winArr = getWinArr2(arr, winSize);

@@ -8,14 +8,14 @@ import com.zhaogang.other.arithmetic.util.ArrUtils;
  * @description
  */
 public class Sort10 {
-    private static final int[] arr = new int[] {3, 6, 8, 0, 1, 1, 3, 7, 7, 4, 5, 5, 1, 0};
+    private static final Integer[] arr = new Integer[] {3, 6, 8, 0, 1, 1, 3, 7, 7, 4, 5, 5, 1, 0};
 
     public static void main(String[] args) {
-        //        bubble();
-        //        select();
-        //        insert();
-        //        shell();
-        //        merge(0, arr.length - 1, arr);
+        // bubble();
+        // select();
+        // insert();
+        // shell();
+        // merge(0, arr.length - 1, arr);
         fast(0, arr.length - 1, arr);
         ArrUtils.printResult(arr);
     }
@@ -83,7 +83,7 @@ public class Sort10 {
         ArrUtils.printResult(arr);
     }
 
-    private static void merge(int low, int high, int[] arr) {
+    private static void merge(int low, int high, Integer[] arr) {
         int mid = (low + high) / 2;
         if (low < high) {
             merge(low, mid, arr);
@@ -92,10 +92,10 @@ public class Sort10 {
         }
     }
 
-    private static void mergeP(int low, int mid, int high, int[] arr) {
+    private static void mergeP(int low, int mid, int high, Integer[] arr) {
         int left = low;
         int right = mid + 1;
-        int[] tmp = new int[high - low + 1];
+        Integer[] tmp = new Integer[high - low + 1];
         int tmpIndex = 0;
 
         while (left <= mid && right <= high) {
@@ -113,7 +113,7 @@ public class Sort10 {
         System.arraycopy(tmp, 0, arr, low, tmp.length);
     }
 
-    private static void fast(int low, int high, int[] arr) {
+    private static void fast(int low, int high, Integer[] arr) {
         int emptyIndex = low;
         int pivot = arr[low];
         int left = low;

@@ -8,7 +8,7 @@ import com.zhaogang.other.arithmetic.util.ArrUtils;
  * @description
  */
 public class Sort6 {
-    private static int[] arr = new int[] {7, 9, 2, 3, 3, 3, 1, 0, 9, 2, 4, 3, 9, 8};
+    private static Integer[] arr = new Integer[] {7, 9, 2, 3, 3, 3, 1, 0, 9, 2, 4, 3, 9, 8};
 
     public static void main(String[] args) {
         // bubble();
@@ -84,7 +84,7 @@ public class Sort6 {
     /**
      * // FIXME: 2021/4/29
      */
-    private static void merge(int low, int high, int[] arr) {
+    private static void merge(int low, int high, Integer[] arr) {
         int mid = (low + high) / 2;
 
         if (low < high) {
@@ -94,10 +94,10 @@ public class Sort6 {
         }
     }
 
-    private static void mergeP(int low, int mid, int high, int[] arr) {
+    private static void mergeP(int low, int mid, int high, Integer[] arr) {
         int left = low;
         int right = mid;
-        int[] tmp = new int[high - low + 1];
+        Integer[] tmp = new Integer[high - low + 1];
         int tmpIndex = 0;
         while (left <= mid && right <= high) {
             tmp[tmpIndex++] = arr[left] < arr[right] ? arr[left++] : arr[right++];
@@ -114,7 +114,7 @@ public class Sort6 {
         System.arraycopy(tmp, 0, arr, low, tmpIndex + 1);
     }
 
-    private static void fast(int low, int high, int[] arr) {
+    private static void fast(int low, int high, Integer[] arr) {
         int left = low;
         int right = high;
         int emptyIndex = low;

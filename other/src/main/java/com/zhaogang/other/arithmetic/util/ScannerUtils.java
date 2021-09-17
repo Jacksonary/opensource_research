@@ -15,7 +15,7 @@ import java.util.Scanner;
  * @date 2021/7/3
  * @description
  */
-public class ScannerUtil {
+public class ScannerUtils {
 
     private static final String BYTE = "java.lang.Byte";
     private static final String SHORT = "java.lang.Short";
@@ -27,7 +27,7 @@ public class ScannerUtil {
 
     private static final String STRING = "java.lang.String";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScannerUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScannerUtils.class);
 
     /**
      * 从输入流获取一个指定类型的数组

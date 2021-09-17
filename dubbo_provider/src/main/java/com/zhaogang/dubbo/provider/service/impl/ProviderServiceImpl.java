@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
  * @datetime 2020/9/29 15:03
  * @description
  */
-@Activate
 @Service("providerService")
 public class ProviderServiceImpl implements ProviderService {
 

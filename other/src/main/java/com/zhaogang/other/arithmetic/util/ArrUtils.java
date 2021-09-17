@@ -20,17 +20,18 @@ public class ArrUtils {
         printResult(arr);
     }
 
-    public static void swap(int[] arr, int from, int to) {
-        int tmp = arr[from];
+    public static <T> void swap(T[] arr, int from, int to) {
+        T tmp = arr[from];
         arr[from] = arr[to];
         arr[to] = tmp;
     }
 
     public static void printResult(int[] arr) {
-        System.out.print(">> " + Thread.currentThread().getStackTrace()[2].getMethodName() + " result: ");
+        System.out.print(">> " + Thread.currentThread().getStackTrace()[2].getMethodName() + ", result: ");
         for (int i : arr) {
             System.out.print(i + " ");
         }
+        System.out.println();
     }
 
     public static void printResult(Integer[] arr) {

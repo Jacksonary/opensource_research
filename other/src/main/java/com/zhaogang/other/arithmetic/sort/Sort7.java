@@ -8,7 +8,7 @@ import com.zhaogang.other.arithmetic.util.ArrUtils;
  * @description
  */
 public class Sort7 {
-    private static final int[] arr = new int[] {5, 6, 2, 3, 1, 9, 0, 7, 7, 5, 1, 6};
+    private static final Integer[] arr = new Integer[] {5, 6, 2, 3, 1, 9, 0, 7, 7, 5, 1, 6};
 
     public static void main(String[] args) {
         // bubble();
@@ -110,7 +110,7 @@ public class Sort7 {
         System.arraycopy(tmp, 0, arr, low, tmpIndex);
     }
 
-    private static void fast(int[] arr, int low, int high) {
+    private static void fast(Integer[] arr, int low, int high) {
         int left = low;
         int right = high;
         int tarIndex = low;

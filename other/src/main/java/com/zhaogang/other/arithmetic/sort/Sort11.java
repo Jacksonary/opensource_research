@@ -8,7 +8,7 @@ import com.zhaogang.other.arithmetic.util.ArrUtils;
  * @description
  */
 public class Sort11 {
-    private static final int[] arr = new int[] {5, 6, 7, 2, 3, 1, 1, 4, 9, 0, 0};
+    private static final Integer[] arr = new Integer[] {5, 6, 7, 2, 3, 1, 1, 4, 9, 0, 0};
 
     public static void main(String[] args) {
         //        bubble();
@@ -82,7 +82,7 @@ public class Sort11 {
         ArrUtils.printResult(arr);
     }
 
-    private static void merge(int[] arr, int low, int high) {
+    private static void merge(Integer[] arr, int low, int high) {
         int mid = (low + high) / 2;
 
         if (low < high) {
@@ -92,7 +92,7 @@ public class Sort11 {
         }
     }
 
-    private static void mergeP(int[] arr, int low, int mid, int high) {
+    private static void mergeP(Integer[] arr, int low, int mid, int high) {
         int left = low;
         int right = mid + 1;
         int tmp[] = new int[high - low + 1];
@@ -113,7 +113,7 @@ public class Sort11 {
         System.arraycopy(tmp, 0, arr, low, tmp.length);
     }
 
-    private static void fast(int[] arr, int low, int high) {
+    private static void fast(Integer[] arr, int low, int high) {
         int left = low;
         int right = high;
         int emptyIndex = low;

@@ -8,7 +8,7 @@ import com.zhaogang.other.arithmetic.util.ArrUtils;
  * @description
  */
 public class Sort4 {
-    private static int[] arr = new int[] {7, 8, 1, 6, 3, 9, 0, 2, 2, 5, 3, 7};
+    private static Integer[] arr = new Integer[] {7, 8, 1, 6, 3, 9, 0, 2, 2, 5, 3, 7};
 
     public static void main(String[] args) {
         // bubble();
@@ -88,7 +88,7 @@ public class Sort4 {
         ArrUtils.printResult(arr);
     }
 
-    private static void merge(int low, int high, int[] arr) {
+    private static void merge(int low, int high, Integer[] arr) {
         int mid = (low + high) / 2;
 
         if (low < high) {
@@ -98,10 +98,10 @@ public class Sort4 {
         }
     }
 
-    private static void mergePro(int low, int mid, int high, int[] arr) {
+    private static void mergePro(int low, int mid, int high, Integer[] arr) {
         int left = low;
         int right = mid + 1;
-        int[] tmp = new int[high - low + 1];
+        Integer[] tmp = new Integer[high - low + 1];
         int tmpIndex = 0;
 
         while (left <= mid && right <= high) {
@@ -119,7 +119,7 @@ public class Sort4 {
         System.arraycopy(tmp, 0, arr, low, tmp.length);
     }
 
-    private static void fast(int low, int high, int[] arr) {
+    private static void fast(int low, int high, Integer[] arr) {
         int emptyIndex = low;
         int pivot = arr[low];
         int left = low;
