@@ -14,4 +14,8 @@ public class TreeNode {
         this.value = value;
     }
 
+    public void fill(TreeNode left, TreeNode right) {
+        this.left = left;
+        this.right = right;
+    }
 }

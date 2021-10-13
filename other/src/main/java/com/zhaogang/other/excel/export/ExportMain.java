@@ -66,7 +66,7 @@ import com.zhaogang.other.excel.export.model.WidthAndHeightData;
  */
 public class ExportMain {
 
-    private static final String BASE_PATH = "C:\\Users\\weiguo.liu\\Desktop\\excel\\";
+    private static final String BASE_PATH = "C:\\Users\\jacks\\Desktop\\excel\\";
 
     public static void main(String[] args) throws Exception {
         // 1. 直接往指定class中写
