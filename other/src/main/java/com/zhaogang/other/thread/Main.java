@@ -1,7 +1,6 @@
 package com.zhaogang.other.thread;
 
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -16,31 +15,35 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Main {
 
-    private static ThreadPoolExecutor executorService = new ThreadPoolExecutor(5, 10, 3, TimeUnit.SECONDS,
+    private static ThreadPoolExecutor executorService = new ThreadPoolExecutor(5, 10, 1, TimeUnit.SECONDS,
         new LinkedBlockingQueue<>(5), new CustomThreadFactory(), new AbortPolicy());
 
     public static void main(String[] args) throws Exception {
-        for (int j = 0; j < 15; j++) {
+        // executorService.allowCoreThreadTimeOut(true);
+        for (int j = 0; j < 10; j++) {
             executorService.execute(() -> {
-                for (int i = 0; i < 10; i++) {
-                    System.out.println(Thread.currentThread().getId() + ": " + Thread.currentThread().getName() + " -> "
-                        + System.currentTimeMillis());
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                System.out.println(Thread.currentThread().getId() + ": " + Thread.currentThread().getName() + " -> "
+                    + System.currentTimeMillis() + getThreadInfo());
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             });
         }
 
-        LocalDateTime now = LocalDateTime.now();
-        while (LocalDateTime.now().getMinute() - now.getMinute() < 5) {
-            printThreadPoolInfo();
+        // LocalDateTime now = LocalDateTime.now();
+        // while (LocalDateTime.now().getMinute() - now.getMinute() < 5) {
+        // printThreadPoolInfo();
+        // TimeUnit.SECONDS.sleep(1);
+        // }
+
+        // TimeUnit.SECONDS.sleep(10);
+        System.out.println("============= done ==================");
+        for (int i = 0; i < 30; i++) {
+            System.out.println(getThreadInfo());
             TimeUnit.SECONDS.sleep(1);
         }
-
-        System.out.println("============= done ==================");
     }
 
     private static void printThreadPoolInfo() {
@@ -48,6 +51,12 @@ public class Main {
             .println(MessageFormat.format(">> poolSize: {0}, activeCount: {1}, completedTaskCount: {2}, queueSize: {3}",
                 executorService.getPoolSize(), executorService.getActiveCount(),
                 executorService.getCompletedTaskCount(), executorService.getQueue().size()));
+    }
+
+    private static String getThreadInfo() {
+        return " active: " + executorService.getActiveCount() + ", completed: "
+            + executorService.getCompletedTaskCount() + ", core: " + executorService.getCorePoolSize()
+            + ", terminating: " + executorService.isTerminating();
     }
 
     static class CustomThreadFactory implements ThreadFactory {

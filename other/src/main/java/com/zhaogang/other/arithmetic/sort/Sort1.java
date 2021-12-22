@@ -2,6 +2,8 @@ package com.zhaogang.other.arithmetic.sort;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.zhaogang.other.arithmetic.util.ArrUtils;
+
 /**
  * @author weiguo.liu
  * @date 2021/4/15
@@ -9,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Sort1 {
     private static int[] arr = {5, 5, 3, 1, 8, 2, 8, 4, 3, 9, 9};
+    private static Integer[] arr2 = {5, 5, 3, 1, 8, 2, 8, 4, 3, 9, 9};
 
     public static void main(String[] args) {
         // bubbleSort();
@@ -21,6 +24,8 @@ public class Sort1 {
 
         fastSort(arr, 0, arr.length - 1);
         printResult("fastSort");
+
+        heapSort(arr2);
     }
 
     private static void bubbleSort() {
@@ -133,7 +138,7 @@ public class Sort1 {
                 tarIndex = right;
             }
 
-            while (left < right && pivot <= arr[left]) {
+            while (left < right && pivot >= arr[left]) {
                 left++;
             }
 
@@ -154,6 +159,64 @@ public class Sort1 {
         }
     }
 
+    /**
+     * 构建大根堆， 先插入堆(heapInsert)，然后堆化 heapify，heapSize--
+     */
+    private static void heapSort(Integer[] arr) {
+        if (arr == null || arr.length == 1) {
+            return;
+        }
+
+        // heapInsert
+        for (int i = 0; i < arr.length; i++) {
+            heapInsert(arr, i);
+        }
+
+        // heapify
+        int heapSize = arr.length;
+        // 堆顶和末位元素交换
+        ArrUtils.swap(arr, 0, --heapSize);
+        while (heapSize > 0) {
+            heapify(arr, 0, heapSize);
+            ArrUtils.swap(arr, 0, --heapSize);
+        }
+
+        ArrUtils.printResult(arr);
+    }
+
+    /**
+     * 插入并调整大顶堆
+     */
+    private static void heapInsert(Integer[] arr, int cur) {
+        // 子节点大于根节点就不断的调正
+        while (arr[cur] > arr[(cur - 1) / 2]) {
+            ArrUtils.swap(arr, (cur - 1) / 2, cur);
+            cur = (cur - 1) / 2;
+        }
+    }
+
+    /**
+     * 自顶而下进行堆化
+     */
+    private static void heapify(Integer[] arr, int cur, int heapSize) {
+        int left = cur << 1 + 1;
+        while (left < heapSize) {
+            int right = left + 1;
+            int biggerChild = right < heapSize && arr[right] > arr[left] ? right : left;
+
+            biggerChild = arr[biggerChild] > arr[cur] ? biggerChild : cur;
+
+            // 无须调整
+            if (biggerChild == cur) {
+                break;
+            }
+
+            ArrUtils.swap(arr, cur, biggerChild);
+            cur = biggerChild;
+            left = cur << 1 + 1;
+        }
+    }
+
     private static void swap(int from, int to) {
         int tmp = arr[from];
         arr[from] = arr[to];
@@ -167,6 +230,7 @@ public class Sort1 {
         for (int i = 0; i < arr.length - 1; i++) {
             System.out.print(arr[i] + " ");
         }
+        System.out.println();
     }
 
     private static void printResult() {

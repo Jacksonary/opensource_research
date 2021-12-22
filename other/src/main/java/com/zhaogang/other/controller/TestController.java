@@ -1,5 +1,6 @@
 package com.zhaogang.other.controller;
 
+import com.zhaogang.other.arithmetic.tree.TreeNode;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileWriter;
@@ -60,6 +61,13 @@ public class TestController {
     private User user;
     @Resource
     private CustomService customService;
+    @Resource
+    private TreeNode treeNode;
+
+    @GetMapping("/go")
+    public void go() {
+        System.out.println(treeNode);
+    }
 
     public static void testLoader2() {
         String path = "C:\\Users\\weiguo.liu\\Desktop\\java\\com\\test\\ValidateResultDTO.java";

@@ -56,13 +56,13 @@ public class User {
         LOGGER.info("user destroy, user:{}", JSON.toJSONString(this));
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                '}';
+//    }
 
     public static void main(String[] args) {
         User user = new User();
