@@ -13,6 +13,7 @@ public class JsonTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonTest.class);
 
     public static void main(String[] args) {
+        // 添加测试
         User user = new User();
         user.setId(23L);
         user.setName("test");
