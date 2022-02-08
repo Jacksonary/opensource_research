@@ -5,7 +5,8 @@
 #        单机模式
     singleServerConfig:
       password:
-      address: "redis://127.0.0.1:6379"
+#      address: "redis://127.0.0.1:6379"
+      address: "redis://m56-dev-tucana.qup3mw.ng.0001.cnn1.cache.amazonaws.com.cn:6379"
       database: 0
 
       dnsMonitoringInterval: 5000

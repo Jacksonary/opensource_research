@@ -1,5 +1,7 @@
 package com.zhaogang.netty.server.handler;
 
+import com.alibaba.fastjson.JSON;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
@@ -20,7 +22,7 @@ public class DiscardServerHandler extends ChannelHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         // 直接丢弃数据
-        ((ByteBuf) msg).release();
+        ((ByteBuf)msg).release();
     }
 
     /**
@@ -31,6 +33,7 @@ public class DiscardServerHandler extends ChannelHandlerAdapter {
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) { // (4)
+        System.out.println(">> exceptionCaught -> cause: " + JSON.toJSONString(cause));
         // Close the connection when an exception is raised.
         cause.printStackTrace();
         ctx.close();

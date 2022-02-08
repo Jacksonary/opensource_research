@@ -20,12 +20,12 @@ public class PrintServerHandler extends ChannelHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) { // (2)
-        ByteBuf in = (ByteBuf) msg;
+        ByteBuf in = (ByteBuf)msg;
         try {
             // 1. 将客户端的信息输出到控制台
             // 下面是易懂的低效循环，当然也可以写作：System.out.println(in.toString(io.netty.util.CharsetUtil.US_ASCII))
             while (in.isReadable()) {
-                System.out.print((char) in.readByte());
+                System.out.print((char)in.readByte());
                 System.out.flush();
             }
         } finally {

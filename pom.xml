@@ -25,10 +25,10 @@
     <module>rocketmq_original</module>
     <module>netty</module>
     <module>custom_starter</module>
-    <module>seta</module>
     <module>seta_storage</module>
     <module>seta_order</module>
     <module>seta_account</module>
+    <module>flink</module>
   </modules>
 
   <properties>
@@ -54,6 +54,11 @@
         <groupId>io.protostuff</groupId>
         <artifactId>protostuff-runtime</artifactId>
         <version>${protostuff-base.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.24</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
