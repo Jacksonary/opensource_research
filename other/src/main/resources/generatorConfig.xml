@@ -5,10 +5,15 @@
 
 <generatorConfiguration>
   <context id="gworkspaceTables" targetRuntime="MyBatis3">
+<!--    <jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+<!--      connectionURL="jdbc:mysql://127.0.0.1:3306/zg_test"-->
+<!--      userId="root"-->
+<!--      password="root">-->
+<!--    </jdbcConnection>-->
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-      connectionURL="jdbc:mysql://127.0.0.1:3306/zg_test"
-      userId="root"
-      password="root">
+      connectionURL="jdbc:mysql://m56-dev-nebula.cmiwulmj2qzm.rds.cn-north-1.amazonaws.com.cn:3306/nebula_dev"
+      userId="m56devnebula"
+      password="H(Ujo&amp;opl$$^&amp;78$%0!">
     </jdbcConnection>
 
     <javaTypeResolver>
@@ -29,7 +34,8 @@
       <property name="enableSubPackages" value="true"/>
     </javaClientGenerator>
 
-    <table tableName="test" domainObjectName="TestDO"
+    <!-- catalog 是指定具体数据库，不指定存在同名表会重复，即使在 jdbc 中指定了库，实际还是会连接所有的库 -->
+    <table tableName="core_driver" catalog="nebula_dev" domainObjectName="CoreDriverDO"
       enableInsert="true"
       enableSelectByPrimaryKey="true"
       enableUpdateByPrimaryKey="true"

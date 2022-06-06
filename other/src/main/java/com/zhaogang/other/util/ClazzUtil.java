@@ -13,7 +13,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.mysql.cj.util.StringUtils;
-import com.zhaogang.other.excel.export.model.DemoModel;
+import com.zhaogang.other.excel.easyexcel.export.model.DemoModel;
 
 import javassist.ClassClassPath;
 import javassist.ClassPool;

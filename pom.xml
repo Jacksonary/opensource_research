@@ -29,6 +29,8 @@
     <module>seta_order</module>
     <module>seta_account</module>
     <module>flink</module>
+    <module>kafka</module>
+    <module>arithmetic</module>
   </modules>
 
   <properties>
@@ -59,6 +61,11 @@
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>8.0.24</version>
+      </dependency>
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>1.2.75</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

@@ -17,5 +17,15 @@ public class Main {
         System.out.println(1 << 14);
 
         System.out.println(new Integer(8).equals(new Integer(8)));
+
+        try {
+            System.out.println("throw exception");
+            throw new RuntimeException();
+        } catch (Exception e) {
+            throw e;
+//            System.out.println("exception occured");
+        } finally {
+            System.out.println("finally");
+        }
     }
 }

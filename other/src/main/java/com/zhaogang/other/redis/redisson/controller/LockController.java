@@ -31,23 +31,28 @@ public class LockController {
     private RedissonClient redissonClient;
 
     @GetMapping("/lock")
-    public void lock() {
+    public void lock() throws InterruptedException {
         RLock lock = redissonClient.getLock(DEFAULT_LOCK_KEY);
-//        boolean tryLock;
-//        try {
-//            tryLock = lock.tryLock(WAIT_TIME, LEASE_TIME, TimeUnit.SECONDS);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//            LOGGER.warn(">> try lock error");
-//            return;
-//        }
-//
-//        if (tryLock) {
-//            LOGGER.info(">> tryLock success, key: {}", DEFAULT_LOCK_KEY);
-//        }
+        // boolean tryLock;
+        // try {
+        // tryLock = lock.tryLock(WAIT_TIME, LEASE_TIME, TimeUnit.SECONDS);
+        // } catch (InterruptedException e) {
+        // e.printStackTrace();
+        // LOGGER.warn(">> try lock error");
+        // return;
+        // }
+        //
+        // if (tryLock) {
+        // LOGGER.info(">> tryLock success, key: {}", DEFAULT_LOCK_KEY);
+        // }
 
         // 不显式设置释放时间时间才会促发看门狗，看门狗会自动延迟锁的时间，默认每隔30秒检测一下
-        lock.lock();
+         boolean b = lock.tryLock(2, TimeUnit.SECONDS);
+        if (b) {
+            LOGGER.info(">> getLock success");
+        } else {
+            LOGGER.warn(">> getLock failed");
+        }
         try {
             TimeUnit.SECONDS.sleep(60);
         } catch (InterruptedException e) {
@@ -55,10 +60,8 @@ public class LockController {
             LOGGER.warn(">> sleep failed");
         }
 
-        // 让系统结束
-        System.exit(1);
-
-        lock.unlock();
-        LOGGER.warn(">> lock was released");
+        // lock.unlock();
+        // LOGGER.warn(">> lock was released");
+        LOGGER.info("done");
     }
 }

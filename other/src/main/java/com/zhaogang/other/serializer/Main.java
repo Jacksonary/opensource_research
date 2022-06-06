@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.apache.curator.framework.CuratorFramework;
 
-import com.zhaogang.other.excel.read.dto.DemoData;
+import com.zhaogang.other.excel.easyexcel.read.dto.DemoData;
 import com.zhaogang.other.zk.curator.factory.ZKFactory;
 import org.apache.zookeeper.data.Stat;
 
