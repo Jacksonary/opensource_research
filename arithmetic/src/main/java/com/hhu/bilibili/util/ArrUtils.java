@@ -34,6 +34,14 @@ public class ArrUtils {
         System.out.println();
     }
 
+    public static void printResult(String prefix, int[] arr) {
+        System.out.print(">> " + prefix + ": ");
+        for (int i : arr) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+    }
+
     public static void printResult(Integer[] arr) {
         System.out.print(">> " + Thread.currentThread().getStackTrace()[2].getMethodName() + " result: ");
         if (arr == null) {
@@ -63,5 +71,18 @@ public class ArrUtils {
             }
             System.out.println("}");
         }
+    }
+
+    public static int[] getNewArr(int[] arr) {
+        if (arr == null) {
+            return null;
+        }
+
+        int[] result = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            result[i] = arr[i];
+        }
+
+        return result;
     }
 }

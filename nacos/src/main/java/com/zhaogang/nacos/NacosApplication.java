@@ -1,8 +1,9 @@
 package com.zhaogang.nacos;
 
-import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 
 /**
  * @author weiguo.liu
@@ -10,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @description
  */
 @SpringBootApplication
-@NacosPropertySource(dataId = "zg_nacos", autoRefreshed = true)
+@NacosPropertySource(dataId = "nacos", autoRefreshed = true)
 public class NacosApplication {
 
     public static void main(String[] args) {

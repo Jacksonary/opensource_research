@@ -4,24 +4,23 @@ import com.hhu.bilibili.util.ArrUtils;
 
 /**
  * @author jacks
- * @date 2021/12/14
+ * @date 2022/6/15
  */
-public class Sort29 {
+public class Sort31 {
+    private static final int[] origin = new int[] {3, 2, 5, 9, 6, 1, 0, 1, 4, 8, 7};
 
     public static void main(String[] args) {
-        int[] arr = new int[] {1, 5, 3, 7, 0, 9, 2, 3, 2};
+        bubble(ArrUtils.getNewArr(origin));
+        select(ArrUtils.getNewArr(origin));
+        insert(ArrUtils.getNewArr(origin));
+        shell(ArrUtils.getNewArr(origin));
 
-        bubble(ArrUtils.getNewArr(arr));
-        select(ArrUtils.getNewArr(arr));
-        insert(ArrUtils.getNewArr(arr));
-        shell(ArrUtils.getNewArr(arr));
-        merge(ArrUtils.getNewArr(arr), 0, arr.length - 1);
-        fast(ArrUtils.getNewArr(arr), 0, arr.length - 1);
+        merge(ArrUtils.getNewArr(origin), 0, origin.length - 1);
+        fast(ArrUtils.getNewArr(origin), 0, origin.length - 1);
     }
 
     /**
-     * T - O(n^2) </br>
-     * S - O(1)
+     * T - O(n^2) S - O(1)
      * 
      * @param arr
      */
@@ -37,71 +36,47 @@ public class Sort29 {
         ArrUtils.printResult(arr);
     }
 
-    /**
-     * T - O(n^2)</br>
-     * S - O(1)
-     * 
-     * @param arr
-     */
     private static void select(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             int min = i;
             for (int j = i + 1; j < arr.length; j++) {
-                if (arr[min] > arr[j]) {
+                if (arr[j] < arr[min]) {
                     min = j;
                 }
             }
-
-            if (min != i) {
-                swap(arr, min, i);
-            }
+            swap(arr, i, min);
         }
 
         ArrUtils.printResult(arr);
     }
 
-    /**
-     * T - O(n^2)</br>
-     * S - O(1)
-     * 
-     * @param arr
-     */
     private static void insert(int[] arr) {
         for (int i = 1; i < arr.length; i++) {
             int tar = arr[i];
-            int tarIndex = i;
-            while (tarIndex > 0 && arr[tarIndex - 1] > tar) {
-                arr[tarIndex--] = arr[tarIndex];
+            int emptyIndex = i;
+            while (emptyIndex > 0 && arr[emptyIndex - 1] > tar) {
+                arr[emptyIndex--] = arr[emptyIndex];
             }
-            arr[tarIndex] = tar;
+            arr[emptyIndex] = tar;
         }
-
         ArrUtils.printResult(arr);
     }
 
-    /**
-     * T - O(nlogn)</br>
-     * S - O(1)
-     * 
-     * @param arr
-     */
     private static void shell(int[] arr) {
         int h = 1;
-        // 经验公式
         while (h < arr.length / 3) {
             h = h * 3 + 1;
         }
 
         while (h > 0) {
             for (int i = h; i < arr.length; i++) {
-                int tarIndex = i;
                 int tar = arr[i];
-                while (tarIndex > h - 1 && arr[tarIndex - 1] > tar) {
-                    arr[tarIndex--] = arr[tarIndex];
+                int emptyIndex = i;
+                while (emptyIndex > h - 1 && arr[emptyIndex - 1] > tar) {
+                    arr[emptyIndex--] = arr[emptyIndex];
                 }
-                arr[tarIndex] = tar;
+                arr[emptyIndex] = tar;
             }
-
             h = (h - 1) / 3;
         }
 
@@ -109,8 +84,7 @@ public class Sort29 {
     }
 
     /**
-     * T - O(n log n)</br>
-     * S - O(n)
+     * T - O(n log n) | S - O(n)
      * 
      * @param arr
      * @param low
@@ -121,7 +95,8 @@ public class Sort29 {
             return;
         }
 
-        int mid = (low + high) / 2;
+        int mid = low + ((high - low) >> 1);
+        // int mid = (high + low) / 2;
         merge(arr, low, mid);
         merge(arr, mid + 1, high);
         processMerge(arr, low, mid, high);
@@ -129,14 +104,14 @@ public class Sort29 {
     }
 
     private static void processMerge(int[] arr, int low, int mid, int high) {
+        int[] tmp = new int[high - low + 1];
+        int tmpIndex = 0;
+
         int left = low;
         int right = mid + 1;
 
-        int tmpIndex = 0;
-        int[] tmp = new int[high - low + 1];
-
         while (left <= mid && right <= high) {
-            tmp[tmpIndex++] = arr[left] < arr[right] ? arr[left++] : arr[right++];
+            tmp[tmpIndex++] = arr[arr[left] < arr[right] ? left++ : right++];
         }
 
         while (left <= mid) {
@@ -153,6 +128,7 @@ public class Sort29 {
     private static void fast(int[] arr, int low, int high) {
         int left = low;
         int right = high;
+
         int emptyIndex = low;
         int pivot = arr[low];
 
@@ -174,8 +150,8 @@ public class Sort29 {
                 arr[emptyIndex] = arr[left];
                 emptyIndex = left;
             }
-        }
 
+        }
         arr[emptyIndex] = pivot;
 
         if (left - low > 1) {
@@ -190,7 +166,8 @@ public class Sort29 {
     }
 
     private static void swap(int[] arr, int from, int to) {
-        if (arr == null || arr.length < 2 || from == to) {
+        if (from == to) {
+            // 保证内存中不是一个地址，否则异或为0
             return;
         }
 

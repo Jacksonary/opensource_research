@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -31,6 +32,7 @@
     <module>flink</module>
     <module>kafka</module>
     <module>arithmetic</module>
+    <module>ddd</module>
   </modules>
 
   <properties>
@@ -67,6 +69,63 @@
         <artifactId>fastjson</artifactId>
         <version>1.2.75</version>
       </dependency>
+      <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>2.0.1.Final</version>
+      </dependency>
+
+      <!-- 百度的校验器 -->
+      <dependency>
+        <groupId>com.baidu.unbiz</groupId>
+        <artifactId>fluent-validator</artifactId>
+        <version>1.0.9</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.alibaba.fastjson2</groupId>
+        <artifactId>fastjson2</artifactId>
+        <version>2.0.6.graal</version>
+      </dependency>
+
+      <!--      <dependency>-->
+      <!--        <groupId>com.alibaba.nacos</groupId>-->
+      <!--        <artifactId>nacos-spring-context</artifactId>-->
+      <!--        <version>1.1.1</version>-->
+      <!--      </dependency>-->
+
+      <!-- 版本 0.2.x.RELEASE 对应的是 Spring Boot 2.x 版本，版本 0.1.x.RELEASE 对应的是 Spring Boot 1.x 版本 -->
+      <dependency>
+        <groupId>com.alibaba.boot</groupId>
+        <artifactId>nacos-config-spring-boot-starter</artifactId>
+        <version>0.2.11-beta</version>
+        <!--        <version>0.2.7</version>-->
+      </dependency>
+
+      <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        <version>2021.1</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <repositories>
+    <repository>
+      <!-- id必须唯一 -->
+      <id>jboss-repository</id>
+      <!-- 见名知意即可 -->
+      <name>jboss repository</name>
+      <!-- 仓库的url地址 -->
+      <url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+    </repository>
+    <repository>
+      <!-- id必须唯一 -->
+      <id>aliyun-repository</id>
+      <!-- 见名知意即可 -->
+      <name>aliyun repository</name>
+      <!-- 仓库的url地址 -->
+      <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+    </repository>
+  </repositories>
 </project>
