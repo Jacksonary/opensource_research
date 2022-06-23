@@ -5,9 +5,9 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import com.zhaogang.dubbo.service.AccountService;
-import com.zhaogang.dubbo.service.OrderService;
-import com.zhaogang.dubbo.service.dto.Order;
+import com.hhu.dubbo.service.AccountService;
+import com.hhu.dubbo.service.OrderService;
+import com.hhu.dubbo.service.dto.Order;
 
 /**
  * @author jacks

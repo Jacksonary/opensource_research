@@ -2,7 +2,7 @@ package com.hhu.account.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import com.zhaogang.dubbo.service.AccountService;
+import com.hhu.dubbo.service.AccountService;
 
 /**
  * @author jacks

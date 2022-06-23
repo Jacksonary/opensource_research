@@ -5,7 +5,7 @@
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
   <!-- 用于配置当前应用信息，不管该应用是提供者还是消费者，提供方应用信息，用于计算依赖关系 -->
-  <dubbo:application name="zhaogang-provider-app" owner="weiguo.liu" organization="zhaogang"/>
+  <dubbo:application name="hhu-provider-app" owner="weiguo.liu" organization="hhu"/>
 
   <!-- 使用multicast广播注册中心暴露服务地址 -->
   <!--  <dubbo:registry address="multicast://224.5.6.7:1234"/>-->
@@ -15,7 +15,7 @@
   <dubbo:protocol name="dubbo" port="20882"/>
 
   <!-- 声明需要暴露的服务接口，用于暴露一个服务，定义服务的元信息，一个服务可以用多个协议暴露，一个服务也可以注册到多个注册中心 -->
-  <!--  <dubbo:service interface="com.zhaogang.dubbo.service.ProviderService" ref="providerService"/>-->
+  <!--  <dubbo:service interface="com.hhu.dubbo.service.ProviderService" ref="providerService"/>-->
 
   <!--也可以进一步定义方法级别的一些配置（可选），注意：像一些通用的参数 timeout、retries等参数是可以在提供者的接口、提供者的方法、
   消费者的依赖的接口、消费者依赖的接口中的方法中，如果对应的地方都进行了定义，那优先级从高到低遵循：消费者>提供者，方法>接口 -->
@@ -34,7 +34,7 @@
 
   <!--  每个接口都应定义版本号，为后续不兼容升级提供可能,建议使用两位版本号，因为第三位版本号通常表示兼容升级，只有不兼容时才需要变更服务版本-->
   <!--  当不兼容时，先升级一半提供者为新版本，再将消费者全部升为新版本，然后将剩下的一半提供者升为新版本-->
-  <dubbo:service interface="com.zhaogang.dubbo.service.ProviderService" ref="providerService" version="1.0"
+  <dubbo:service interface="com.hhu.dubbo.service.ProviderService" ref="providerService" version="1.0"
     timeout="300" retries="2"
     loadbalance="random" actives="0" export="true">
     <dubbo:method name="test" timeout="2000"/>

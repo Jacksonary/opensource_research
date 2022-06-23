@@ -20,6 +20,9 @@ package com.hhu.zcy.dp;
 public class RobotStep {
     public static void main(String[] args) {
         System.out.println(getTotalCount(3, 1, 3, 3));
+        System.out.println(getTotalCount(7, 4, 9, 5));
+        System.out.println(getTotalCountWithDp(7, 4, 9, 5));
+        System.out.println(getTotalCountWithDp2(7, 4, 9, 5));
     }
 
     /**
@@ -38,5 +41,72 @@ public class RobotStep {
         }
 
         return getTotalCount(n, m + 1, k - 1, p) + getTotalCount(n, m - 1, k - 1, p);
+    }
+
+    /**
+     * 借助二维 dp 表优化 </br>
+     * n 位置数 </br>
+     * m 初始位置(当前位置) | 可变 </br>
+     * k 剩余步数 | 可变 </br>
+     * p 目的地 </br>
+     */
+    private static int getTotalCountWithDp(int n, int m, int k, int p) {
+        int[][] result = new int[k + 1][n];
+        for (int i = 0; i < k + 1; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0) {
+                    if (j == p - 1) {
+                        result[i][j] = 1;
+                    }
+                    continue;
+                }
+
+                if (j == 0) {
+                    result[i][j] = result[i - 1][j + 1];
+                    continue;
+                }
+
+                if (j == n - 1) {
+                    result[i][j] = result[i - 1][j - 1];
+                    continue;
+                }
+
+                result[i][j] = result[i - 1][j - 1] + result[i - 1][j + 1];
+            }
+        }
+
+        return result[k][m - 1];
+    }
+
+    /**
+     * 利用滚动数组优化二维 dp 数组
+     */
+    private static int getTotalCountWithDp2(int n, int m, int k, int p) {
+        int[] result = new int[n];
+        result[p - 1] = 1;
+        for (int i = 1; i < k + 1; i++) {
+            int tmp = 0;
+            for (int j = 0; j < n; j++) {
+                if (j == 0) {
+                    tmp = result[j];
+                    result[j] = result[j + 1];
+                    continue;
+                }
+
+                if (j == n - 1) {
+                    result[j] = tmp;
+                    continue;
+                }
+
+                // 记录之前的值
+                int cur = result[j];
+                // 注意这里滚动时需要使用额外的变量来记录上个位置的值，否则会被覆盖
+                // result[j] = result[j - 1] + result[j + 1];
+                result[j] = tmp + result[j + 1];
+                tmp = cur;
+            }
+        }
+
+        return result[m - 1];
     }
 }

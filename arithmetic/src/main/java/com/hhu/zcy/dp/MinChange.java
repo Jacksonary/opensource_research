@@ -1,8 +1,7 @@
 package com.hhu.zcy.dp;
 
 /**
- * todo: 待解决
- * 给定数组 arr，arr 中所有的值都为正数且不重复。每个值代表一种面值的货币， 每种面值 的货币可以使用任意张，再给定一个整数 aim，代表要找的钱数， 求组成 aim 的最少货币数。
+ * todo: 待解决 给定数组 arr，arr 中所有的值都为正数且不重复。每个值代表一种面值的货币， 每种面值 的货币可以使用任意张，再给定一个整数 aim，代表要找的钱数， 求组成 aim 的最少货币数。
  * 
  * arr=[5,2,3]，aim=20。 4 张 5 元可以组成 20 元，其他的找钱方案都要使用更多张的 货币，所以返回 4。 arr=[5,2,3]，aim=0。 不用任何货币就可以组成 0 元，返回 0。
  * arr=[3,5]，aim=2。 根本无法组成 2 元，钱不能找开的情况下默认返回-1
@@ -16,21 +15,25 @@ public class MinChange {
         int[] unit = new int[] {5, 2, 3};
         int aim = 20;
 
-        // System.out.println(getMinChange(unit, aim));
+        System.out.println(getMinChange(unit, aim));
         System.out.println(minCoins1(unit, aim));
     }
 
     private static int getMinChange(int[] unit, int aim) {
         // 兑换的货币无或最小货币大于目标货币 | 兑换货币小于 0 则直接返回
-        if (unit == null || unit.length == 0) {
+        if (unit == null || unit.length == 0 || aim < 0) {
             return -1;
         }
 
-        // 排序，如果最小的大于 aim 就没得选了
-        sort(unit, 0, unit.length - 1);
-        if (aim < unit[0]) {
-            return -1;
+        if (aim == 0) {
+            return 0;
         }
+
+        // 排序，如果最小的大于 aim 就没得选了
+        // sort(unit, 0, unit.length - 1);
+        // if (aim < unit[0]) {
+        // return -1;
+        // }
 
         return getCount(unit, 0, aim);
     }
@@ -41,18 +44,21 @@ public class MinChange {
      * @param changeIndex
      *            标识从 0 到 changeIndex 上可以兑换成功的货币
      * @param aim
+     *            找零的总数
      */
     private static int getCount(int[] unit, int changeIndex, int aim) {
-        // 已经到最后一个了
-        if (changeIndex == unit.length) {
-            return aim == 0 ? 0 : -1;
+        // 已经到最后一个了，也是临界条件
+        if (changeIndex == unit.length - 1) {
+            return aim % unit[changeIndex] == 0 ? aim / unit[changeIndex] : -1;
         }
 
         // 初始为 -1，默认还没找到
         int result = -1;
         // 对 changeIndex 尝试使用多张，每次都去尝试找一个是否可以完整的兑换剩余货币
-        for (int i = 0; i * unit[changeIndex] <= aim; i++) {
+        for (int i = 0; i * unit[changeIndex] <= aim && i < unit.length - 1; i++) {
             int next = getCount(unit, i + 1, result - i * unit[changeIndex]);
+
+            // 找到了
             if (next != -1) {
                 result = result == -1 ? next + i : Math.min(result, i * unit[changeIndex]);
             }

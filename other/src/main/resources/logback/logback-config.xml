@@ -109,7 +109,7 @@
   </appender>
 
   <!-- 需要自定义抓日志的配置 -->
-  <appender name="CatAppender" class="com.zhaogang.other.cat.CatLogbackAppender"/>
+  <appender name="CatAppender" class="com.hhu.other.cat.CatLogbackAppender"/>
 
   <logger name="org.springframework" additivity="false">
     <level value="ERROR"/>

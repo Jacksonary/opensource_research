@@ -2,7 +2,7 @@
 <configuration debug="false" scan="true" scanPeriod="1 seconds">
 
   <contextName>logback</contextName>
-  <property name="log.path" value="D:\\IDEAProjects\\zhaogang_test\\xxl-job\\zhaogang-xxl-job-executor-springboot.log"/>
+  <property name="log.path" value="D:\\IDEAProjects\\hhu_test\\xxl-job\\hhu-xxl-job-executor-springboot.log"/>
 
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>

@@ -5,7 +5,7 @@
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
   <!-- 用于配置当前应用信息，不管该应用是提供者还是消费者，消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
-  <dubbo:application name="zhaogang-consumer-app">
+  <dubbo:application name="hhu-consumer-app">
     <!-- 新版qos端口设置(方式2：在dubbo的配置文件中进行配置)，默认是 22222-->
     <dubbo:parameter key="qos.enable" value="true"/>
     <dubbo:parameter key="qos.accept.foreign.ip" value="false"/>
@@ -16,5 +16,5 @@
   <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
   <!-- 生成远程服务代理，以便和本地bean一样使用，用于创建一个远程服务代理，一个引用可以指向多个注册中心 -->
-  <dubbo:reference id="accountService" check="false" interface="com.zhaogang.dubbo.service.AccountService" version="1.0"/>
+  <dubbo:reference id="accountService" check="false" interface="com.hhu.dubbo.service.AccountService" version="1.0"/>
 </beans>

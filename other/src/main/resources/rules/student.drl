@@ -1,6 +1,6 @@
 // 包名是对于规则文件逻辑上管理
 package rules
-import com.zhaogang.other.drools.dto.Student
+import com.hhu.other.drools.dto.Student
 
 // 指定方言，MVEL是Apache许可的功能强大的表达语言(EL),用Java编写,用于基于Java的应用程序,因此其语法与Java相似.
 dialect  "mvel"

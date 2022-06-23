@@ -5,7 +5,7 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.stereotype.Service;
 
-import com.zhaogang.dubbo.service.StorageService;
+import com.hhu.dubbo.service.StorageService;
 
 /**
  * @author jacks
