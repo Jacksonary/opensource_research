@@ -10,7 +10,6 @@
   </parent>
   <groupId>com.hhu.business</groupId>
   <artifactId>seta_business</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>seta_business</name>
   <description>Demo project for Spring Boot</description>
   <properties>
