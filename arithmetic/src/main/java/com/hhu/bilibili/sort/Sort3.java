@@ -17,8 +17,10 @@ public class Sort3 {
         // shell();
 
         // merge(0, arr.length - 1, arr);
-        fast(0, arr.length - 1, arr);
-        ArrUtils.printResult(arr);
+        // fast(0, arr.length - 1, arr);
+        // ArrUtils.printResult(arr);
+
+        heap(arr);
     }
 
     /**
@@ -200,5 +202,56 @@ public class Sort3 {
         if (high - right > 1) {
             fast(right + 1, high, arr);
         }
+    }
+
+    /**
+     * left = 2 * i + 1; right = 2* i + 2; root = (i-1)/2;
+     * 
+     * @param arr cargo
+     */
+    private static void heap(Integer[] arr) {
+        int len = arr.length - 1;
+        int root = (arr.length >> 1) - 1;
+
+        // heapify
+        for (int i = root; i >= 0; i--) {
+            heapify(arr, i, len);
+        }
+
+        for (int i = len; i > 0; i--) {
+            swap(arr, 0, i);
+            heapify(arr, 0, i - 1);
+        }
+
+        ArrUtils.printResult(arr);
+    }
+
+    private static void heapify(Integer[] arr, int root, int maxIndex) {
+        int left = (root << 1) + 1;
+        int right = left + 1;
+
+        if (left > maxIndex) {
+            return;
+        }
+
+        int maxSon = left;
+        if (right <= maxIndex && arr[right] > arr[left]) {
+            maxSon = right;
+        }
+
+        if (arr[maxSon] > arr[root]) {
+            swap(arr, root, maxSon);
+            heapify(arr, maxSon, maxIndex);
+        }
+    }
+
+    private static void swap(Integer[] arr, int from, int to) {
+        if (arr == null || from == to) {
+            return;
+        }
+
+        arr[from] = arr[from] ^ arr[to];
+        arr[to] = arr[from] ^ arr[to];
+        arr[from] = arr[from] ^ arr[to];
     }
 }

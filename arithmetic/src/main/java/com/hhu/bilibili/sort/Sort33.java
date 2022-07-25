@@ -3,64 +3,67 @@ package com.hhu.bilibili.sort;
 import com.hhu.bilibili.util.ArrUtils;
 
 /**
- * @author weiguo.liu
- * @date 2021/4/29
- * @description
+ * @author jacks
+ * @date 2022/6/26
  */
-public class Sort6 {
-    private static Integer[] arr = new Integer[] {7, 9, 2, 3, 3, 3, 1, 0, 9, 2, 4, 3, 9, 8};
+public class Sort33 {
 
     public static void main(String[] args) {
-        // bubble();
-        // select();
-        // insert();
-        // shell();
-        merge(0, arr.length - 1, arr);
-        // fast(0, arr.length - 1, arr);
-        ArrUtils.printResult(arr);
+        int[] arr = new int[] {4, 8, 1, 0, 3, 9, 3};
+
+        bubble(ArrUtils.getNewArr(arr));
+        select(ArrUtils.getNewArr(arr));
+        insert(ArrUtils.getNewArr(arr));
+        shell(ArrUtils.getNewArr(arr));
+
+        merge(ArrUtils.getNewArr(arr), 0, arr.length - 1);
+        fast(ArrUtils.getNewArr(arr), 0, arr.length - 1);
     }
 
-    private static void bubble() {
+    private static void bubble(int[] arr) {
         for (int i = arr.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (arr[j] > arr[j + 1]) {
-                    ArrUtils.swap(arr, j, j + 1);
+                    swap(arr, j, j + 1);
                 }
             }
         }
+
         ArrUtils.printResult(arr);
     }
 
-    private static void select() {
+    private static void select(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
-            int minIndex = i;
+            int min = i;
             for (int j = i + 1; j < arr.length; j++) {
-                if (arr[j] < arr[minIndex]) {
-                    minIndex = j;
+                if (arr[min] > arr[j]) {
+                    min = j;
                 }
             }
 
-            if (minIndex != i) {
-                ArrUtils.swap(arr, minIndex, i);
+            if (min != i) {
+                swap(arr, i, min);
             }
         }
+
         ArrUtils.printResult(arr);
     }
 
-    private static void insert() {
+    private static void insert(int[] arr) {
         for (int i = 1; i < arr.length; i++) {
-            int tarIndex = i;
             int tar = arr[i];
-            while (tarIndex > 0 && arr[tarIndex - 1] > tar) {
+            int tarIndex = i;
+            while (tarIndex > 0 && tar < arr[tarIndex - 1]) {
                 arr[tarIndex--] = arr[tarIndex];
             }
+
             arr[tarIndex] = tar;
         }
 
         ArrUtils.printResult(arr);
     }
 
-    private static void shell() {
+    private static void shell(int[] arr) {
         int h = 1;
         while (h < arr.length / 3) {
             h = h * 3 + 1;
@@ -68,11 +71,12 @@ public class Sort6 {
 
         while (h > 0) {
             for (int i = h; i < arr.length; i++) {
-                int tarIndex = i;
                 int tar = arr[i];
+                int tarIndex = i;
                 while (tarIndex > h - 1 && arr[tarIndex - 1] > tar) {
                     arr[tarIndex--] = arr[tarIndex];
                 }
+
                 arr[tarIndex] = tar;
             }
             h = (h - 1) / 3;
@@ -81,24 +85,23 @@ public class Sort6 {
         ArrUtils.printResult(arr);
     }
 
-    /**
-     * // FIXME: 2021/4/29
-     */
-    private static void merge(int low, int high, Integer[] arr) {
-        int mid = (low + high) / 2;
-
+    private static void merge(int[] arr, int low, int high) {
         if (low < high) {
-            merge(low, mid, arr);
-            merge(mid + 1, high, arr);
-            mergeP(low, mid, high, arr);
+            // int mid = (low + high) / 2;
+            int mid = low + (high - low >> 1);
+            merge(arr, low, mid);
+            merge(arr, mid + 1, high);
+            mergeP(arr, low, mid, high);
         }
     }
 
-    private static void mergeP(int low, int mid, int high, Integer[] arr) {
-        int left = low;
-        int right = mid;
-        Integer[] tmp = new Integer[high - low + 1];
+    private static void mergeP(int[] arr, int low, int mid, int high) {
+        int[] tmp = new int[high - low + 1];
         int tmpIndex = 0;
+
+        int left = low;
+        int right = mid + 1;
+
         while (left <= mid && right <= high) {
             tmp[tmpIndex++] = arr[left] < arr[right] ? arr[left++] : arr[right++];
         }
@@ -111,14 +114,16 @@ public class Sort6 {
             tmp[tmpIndex++] = arr[right++];
         }
 
-        System.arraycopy(tmp, 0, arr, low, tmpIndex + 1);
+        System.arraycopy(tmp, 0, arr, low, tmpIndex);
+        ArrUtils.printResult(arr);
     }
 
-    private static void fast(int low, int high, Integer[] arr) {
+    private static void fast(int[] arr, int low, int high) {
         int left = low;
         int right = high;
-        int emptyIndex = low;
+
         int pivot = arr[low];
+        int tarIndex = low;
 
         while (left < right) {
             while (left < right && arr[right] >= pivot) {
@@ -126,8 +131,8 @@ public class Sort6 {
             }
 
             if (left < right) {
-                arr[emptyIndex] = arr[right];
-                emptyIndex = right;
+                arr[tarIndex] = arr[right];
+                tarIndex = right;
             }
 
             while (left < right && arr[left] <= pivot) {
@@ -135,29 +140,31 @@ public class Sort6 {
             }
 
             if (left < right) {
-                arr[emptyIndex] = arr[left];
-                emptyIndex = left;
+                arr[tarIndex] = arr[left];
+                tarIndex = left;
             }
         }
 
-        arr[emptyIndex] = pivot;
+        arr[tarIndex] = pivot;
 
         if (left - low > 1) {
-            fast(low, left - 1, arr);
+            fast(arr, low, left - 1);
         }
 
         if (high - right > 1) {
-            fast(right + 1, high, arr);
+            fast(arr, right + 1, high);
         }
+
+        ArrUtils.printResult(arr);
     }
 
-    /**
-     * left = 2 * i + 1;
-     * right = 2 * i + 2;
-     * root = (i - 1) / 2;
-     */
-    private static void heap(int[] arr) {
+    private static void swap(int[] arr, int from, int to) {
+        if (arr == null || arr.length == 1 || from == to) {
+            return;
+        }
 
+        arr[from] = arr[from] ^ arr[to];
+        arr[to] = arr[from] ^ arr[to];
+        arr[from] = arr[from] ^ arr[to];
     }
-
 }

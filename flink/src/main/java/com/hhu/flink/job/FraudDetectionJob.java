@@ -1,5 +1,6 @@
 package com.hhu.flink.job;
 
+import javafx.scene.control.Alert;
 import org.apache.flink.shaded.zookeeper3.org.apache.zookeeper.Transaction;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;

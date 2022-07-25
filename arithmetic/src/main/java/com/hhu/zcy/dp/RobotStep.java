@@ -19,10 +19,74 @@ package com.hhu.zcy.dp;
  */
 public class RobotStep {
     public static void main(String[] args) {
-        System.out.println(getTotalCount(3, 1, 3, 3));
+        System.out.println(getTotalCount(7, 4, 9, 5));
         System.out.println(getTotalCount(7, 4, 9, 5));
         System.out.println(getTotalCountWithDp(7, 4, 9, 5));
         System.out.println(getTotalCountWithDp2(7, 4, 9, 5));
+
+        System.out.println(getStep(5, 2, 3, 3));
+        System.out.println(getSepWithDP(5, 2, 3, 3));
+        System.out.println(getSepWithDP2(5, 2, 3, 3));
+    }
+
+    private static int getStep(int n, int m, int p, int k) {
+        if (k == 0) {
+            return m == p ? 1 : 0;
+        }
+
+        if (m == 1) {
+            return getStep(n, m + 1, p, k - 1);
+        }
+
+        if (m == n) {
+            return getStep(n, m - 1, p, k - 1);
+        }
+
+        return getStep(n, m - 1, p, k - 1) + getStep(n, m + 1, p, k - 1);
+    }
+
+    /**
+     * m k
+     */
+    private static int getSepWithDP(int n, int m, int p, int k) {
+        int[][] dp = new int[k + 1][n];
+        dp[0][m - 1] = 1;
+
+        for (int i = 1; i < k + 1; i++) {
+            dp[i][0] = dp[i - 1][1];
+            dp[i][n - 1] = dp[i - 1][n - 2];
+            for (int j = 1; j < n - 1; j++) {
+                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j + 1];
+            }
+        }
+
+        return dp[k][p - 1];
+    }
+
+    private static int getSepWithDP2(int n, int m, int p, int k) {
+        int[] dp = new int[n];
+        dp[m - 1] = 1;
+
+        // 空间压缩
+        for (int j = 1; j < k + 1; j++) {
+            int pre;
+            for (int i = 0; i < n; i++) {
+                pre = 0;
+                if (i == 0) {
+                    dp[i] = pre + dp[i + 1];
+                    continue;
+                }
+
+                if (i == n - 1) {
+                    dp[i] = pre;
+                    continue;
+                }
+
+                dp[i] = pre + dp[i + 1];
+            }
+        }
+
+        return dp[p - 1];
     }
 
     /**

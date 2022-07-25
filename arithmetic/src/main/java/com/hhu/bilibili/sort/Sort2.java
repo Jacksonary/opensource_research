@@ -1,5 +1,7 @@
 package com.hhu.bilibili.sort;
 
+import com.hhu.bilibili.util.ArrUtils;
+
 /**
  * @author weiguo.liu
  * @date 2021/4/21
@@ -27,11 +29,11 @@ public class Sort2 {
         // insert();
         // shell();
 
-        merge(arr, 0, arr.length - 1);
-        printResult();
-
+        // merge(arr, 0, arr.length - 1);
         // fast(arr, 0, arr.length - 1);
-        // printResult();
+
+        heap(arr);
+        printResult();
     }
 
     /**
@@ -171,6 +173,41 @@ public class Sort2 {
 
         if (high - right > 1) {
             fast(arr, right + 1, high);
+        }
+    }
+
+    private static void heap(int[] arr) {
+        int root = arr.length - 1 >> 1;
+        int maxIndex = arr.length - 1;
+
+        for (int i = root; i >= 0; i--) {
+            heapify(arr, i, maxIndex);
+        }
+
+        for (int i = maxIndex; i > 0; i--) {
+            swap(i, 0);
+            heapify(arr, 0, i - 1);
+        }
+
+        ArrUtils.printResult(arr);
+    }
+
+    private static void heapify(int[] arr, int root, int maxIndex) {
+        int left = (root << 1) + 1;
+        int right = left + 1;
+
+        if (left > maxIndex) {
+            return;
+        }
+
+        int maxSon = left;
+        if (right <= maxIndex && arr[right] > arr[left]) {
+            maxSon = right;
+        }
+
+        if (arr[root] < arr[maxSon]) {
+            swap(root, maxSon);
+            heapify(arr, maxSon, maxIndex);
         }
     }
 }

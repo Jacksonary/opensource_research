@@ -19,21 +19,23 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
     </dependency>
 
+    <!-- flink java的核心依赖 -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-java</artifactId>
+      <version>${flink.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-streaming-java_2.12</artifactId>
       <version>${flink.version}</version>
     </dependency>
+
+    <!--可要可不要-->
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-core</artifactId>
@@ -49,6 +51,13 @@
       <artifactId>flink-test-utils-junit</artifactId>
       <version>${flink.version}</version>
       <scope>test</scope>
+    </dependency>
+
+    <!--读取 kafka 的数据源-->
+    <dependency>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-connector-kafka_2.12</artifactId>
+      <version>1.8.1</version>
     </dependency>
   </dependencies>
 
